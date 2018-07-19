@@ -9,4 +9,8 @@
     insert into USER(USERNAME, PASSWORD)
     values(#{username}, #{password})
   </insert>
+  
+  <select id="findOneByUsername" resultType="User">
+    select * from USER where USERNAME = #{username}
+  </select>
 </mapper>
