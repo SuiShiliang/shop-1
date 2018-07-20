@@ -5,7 +5,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="shop.mapper.CellphoneMapper">
-  <select id="findAll" resultType="Cellphone">
+  <select id="search" resultType="Cellphone">
     select * from CELLPHONE
+    <where>
+      <if test="brand != null">
+        BRAND = #{brand}
+      </if>
+      <if test="os != null">
+        and OS = #{os}
+      </if>
+      <if test="cpuBrand != null">
+        and CPU_BRAND = #{cpuBrand}
+      </if>
+      <if test="cpuCoreCount != null">
+        and CPU_CORE_COUNT = #{cpuCoreCount}
+      </if>
+      <if test="ram != null">
+        and RAM = #{ram}
+      </if>
+      <if test="storage != null">
+        and STORAGE = #{storage}
+      </if>
+    </where>
   </select>
 </mapper>

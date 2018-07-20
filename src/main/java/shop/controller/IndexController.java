@@ -21,8 +21,10 @@ public class IndexController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
-    public String index(Model model) {
-        List<Cellphone> cellphones = cellphoneService.findAll();
+    public String index(Model model, 
+                        Cellphone cellphone) {
+        System.out.println("手机搜索条件: " + cellphone);
+        List<Cellphone> cellphones = cellphoneService.search(cellphone);
         model.addAttribute("cellphones", cellphones);
         return "index";
     }

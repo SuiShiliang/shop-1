@@ -1,10 +1,8 @@
 package shop.model;
 
-import javax.validation.constraints.NotEmpty;
 
 public class Cellphone {
     private Long id;
-    @NotEmpty(message = "必填")
     private String brand;
     private String model;
     private String os;
@@ -38,13 +36,18 @@ public class Cellphone {
         return os;
     }
     public void setOs(String os) {
-        this.os = os;
+        if (os != null && !os.trim().isEmpty()) {
+            this.os = os;
+        }
     }
     public String getCpuBrand() {
         return cpuBrand;
     }
     public void setCpuBrand(String cpuBrand) {
-        this.cpuBrand = cpuBrand;
+        // 配合mapper.xml中做null检查
+        if (cpuBrand != null && !cpuBrand.trim().isEmpty()) {
+            this.cpuBrand = cpuBrand;
+        }
     }
     public Integer getCpuCoreCount() {
         return cpuCoreCount;
@@ -82,4 +85,14 @@ public class Cellphone {
     public void setPrice(Integer price) {
         this.price = price;
     }
+    
+    @Override
+    public String toString() {
+        return "Cellphone [id=" + id + ", brand=" + brand + ", model=" + model
+                + ", os=" + os + ", cpuBrand=" + cpuBrand + ", cpuCoreCount="
+                + cpuCoreCount + ", ram=" + ram + ", storage=" + storage
+                + ", color=" + color + ", description=" + description
+                + ", price=" + price + "]";
+    }
+    
 }

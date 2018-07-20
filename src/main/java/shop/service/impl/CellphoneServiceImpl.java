@@ -19,7 +19,7 @@ public class CellphoneServiceImpl implements CellphoneService {
     }
 
     @Override
-    public List<Cellphone> findAll() {
-        return cellphoneMapper.findAll();
+    public List<Cellphone> search(Cellphone cellphone) {
+        return cellphoneMapper.search(cellphone);
     }
 }

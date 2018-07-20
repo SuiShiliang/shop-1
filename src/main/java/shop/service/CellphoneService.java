@@ -6,6 +6,6 @@ import shop.model.Cellphone;
 
 public interface CellphoneService {
 
-    List<Cellphone> findAll();
+    List<Cellphone> search(Cellphone cellphone);
     
 }

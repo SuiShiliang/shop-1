@@ -5,5 +5,5 @@ import java.util.List;
 import shop.model.Cellphone;
 
 public interface CellphoneMapper {
-    List<Cellphone> findAll();
+    List<Cellphone> search(Cellphone cellphone);
 }
