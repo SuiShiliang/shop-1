@@ -22,4 +22,9 @@ public class CellphoneServiceImpl implements CellphoneService {
     public List<Cellphone> search(Cellphone cellphone) {
         return cellphoneMapper.search(cellphone);
     }
+
+    @Override
+    public Cellphone findOne(Long id) {
+        return cellphoneMapper.findOne(id);
+    }
 }

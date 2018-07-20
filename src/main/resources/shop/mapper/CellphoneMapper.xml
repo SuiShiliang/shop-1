@@ -28,4 +28,8 @@
       </if>
     </where>
   </select>
+  
+  <select id="findOne" resultType="Cellphone">
+    select * from CELLPHONE where ID = #{id}
+  </select>
 </mapper>

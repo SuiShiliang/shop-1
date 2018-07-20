@@ -5,6 +5,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 <t:layout title="首页">
   <form:form action="" method="get" commandName="cellphone">
     <div>
@@ -66,6 +68,7 @@
       <th>存储</th>
       <th>颜色</th>
       <th>价格</th>
+      <th></th>
     </tr>
     <c:forEach items="${cellphones}" var="cellphone">
       <tr>
@@ -77,6 +80,7 @@
         <td>${cellphone.storage}</td>
         <td>${cellphone.color}</td>
         <td>${cellphone.price}</td>
+        <td><a href="${contextPath}/cellphones/${cellphone.id}">详情</a></td>
       </tr>
     </c:forEach>
   </table>
