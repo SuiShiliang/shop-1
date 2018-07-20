@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,7 +23,7 @@ public class IndexController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String index(Model model, 
-                        Cellphone cellphone) {
+                        @ModelAttribute Cellphone cellphone) {
         System.out.println("手机搜索条件: " + cellphone);
         List<Cellphone> cellphones = cellphoneService.search(cellphone);
         model.addAttribute("cellphones", cellphones);

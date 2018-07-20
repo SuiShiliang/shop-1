@@ -3,57 +3,58 @@
     
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <t:layout title="首页">
-  <form action="" method="get">
+  <form:form action="" method="get" commandName="cellphone">
     <div>
       <label for="brand">品牌</label>
-      <select name="brand">
-        <option value="">--请选择品牌--</option>
-        <option value="苹果">苹果</option>
-        <option value="锤子">锤子</option>
-        <option value="华为">华为</option>
-      </select>
+      <form:select path="brand">
+        <form:option value="">--请选择品牌--</form:option>
+        <form:option value="苹果">苹果</form:option>
+        <form:option value="锤子">锤子</form:option>
+        <form:option value="华为">华为</form:option>
+      </form:select>
     </div>
     
     <div>
       <label for="os">操作系统</label>
-      <select name="os">
-        <option value="">--请选择操作系统--</option>
-        <option value="Android">Android</option>
-        <option value="IOS">IOS</option>
-        <option value="Windows Phone">Windows Phone</option>
-      </select>      
+      <form:select path="os">
+        <form:option value="">--请选择操作系统--</form:option>
+        <form:option value="Android">Android</form:option>
+        <form:option value="IOS">IOS</form:option>
+        <form:option value="Windows Phone">Windows Phone</form:option>
+      </form:select>      
     </div>
     
     <div>
       <label for="cpuBrand">CPU品牌</label>
-      <select name="cpuBrand">
-        <option value="">--请选择CPU品牌--</option>
-        <option value="高通">高通</option>
-        <option value="联发科">联发科</option>
-      </select>
+      <form:select path="cpuBrand">
+        <form:option value="">--请选择CPU品牌--</form:option>
+        <form:option value="高通">高通</form:option>
+        <form:option value="联发科">联发科</form:option>
+      </form:select>
     </div>    
     
     <div>
       <label for=cpuCoreCount>CPU核心数</label>
-      <input name="cpuCoreCount" type="number" min="1" max="16" />
+      <form:input path="cpuCoreCount" type="number" min="1" max="16" />
     </div>
     
     <div>
       <label for=ram>运行内存</label>
-      <input name="ram" type="number" min="1" max="16" placeholder="GB" />
+      <form:input path="ram" type="number" min="1" max="16" placeholder="GB" />
     </div>
     
     <div>
       <label for=storage>机身存储</label>
-      <input name="storage" type="number" min="16" max="256" placeholder="GB" />
-    </div>    
+      <form:input path="storage" type="number" min="16" max="256" placeholder="GB" />
+    </div> 
     
     <div>
       <button type="submit">搜索</button>
     </div>
-  </form>
+  </form:form>
   
    <table>
     <tr>
