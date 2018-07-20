@@ -24,7 +24,9 @@ public class Cellphone {
         return brand;
     }
     public void setBrand(String brand) {
-        this.brand = brand;
+        if (brand != null && !brand.trim().isEmpty()) {
+            this.brand = brand;
+        }
     }
     public String getModel() {
         return model;
