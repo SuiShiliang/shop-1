@@ -13,4 +13,8 @@
   <select id="findOneByUsername" resultType="User">
     select * from USER where USERNAME = #{username}
   </select>
+  
+  <update id="updateLastLoginTime">
+    update USER set LAST_LOGIN_TIME = #{date} where ID = #{id}
+  </update>
 </mapper>
