@@ -1,10 +1,13 @@
 package shop.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mapper.ShoppingCartMapper;
+import shop.model.ShoppingCartItem;
 import shop.service.ShoppingCartService;
 
 @Service
@@ -24,6 +27,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         } else {
             shoppingCartMapper.createItem(userId, cellphoneId, amount);
         }
+    }
+
+    @Override
+    public List<ShoppingCartItem> findAllItems(Long userId) {
+        return shoppingCartMapper.findAllItems(userId);
     }
 
 }

@@ -20,4 +20,25 @@
     insert into SHOPPING_CART_ITEM (USER_ID, CELLPHONE_ID, AMOUNT)
     values (#{userId}, #{cellphoneId}, #{amount})
   </insert>
+  
+  <select id="findAllItems" resultMap="itemDetailsMap">
+    select 
+      i.USER_ID, i.AMOUNT, 
+      c.ID CELLPHONE_ID, c.BRAND CELLPHONE_BRAND, c.MODEL CELLPHONE_MODEL, 
+        c.COLOR CELLPHONE_COLOR, c.PRICE CELLPHONE_PRICE  
+    from SHOPPING_CART_ITEM i 
+      inner join CELLPHONE c on i.CELLPHONE_ID = c.ID 
+    where i.USER_ID = #{userId} 
+  </select>
+  
+  <resultMap type="ShoppingCartItem" id="itemDetailsMap">
+    <result column="AMOUNT" property="amount" />
+    <association property="cellphone" javaType="Cellphone">
+      <id column="CELLPHONE_ID" property="id" />
+      <result column="CELLPHONE_BRAND" property="brand" />
+      <result column="CELLPHONE_MODEL" property="model" />
+      <result column="CELLPHONE_COLOR" property="color" />
+      <result column="CELLPHONE_PRICE" property="price" />
+    </association>
+  </resultMap>
 </mapper>

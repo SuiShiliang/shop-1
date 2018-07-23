@@ -22,6 +22,7 @@
   <div class="header"> 
     <sec:authorize access="isAuthenticated()">
       <sec:authentication property="principal.username" />
+      <a href="${contextPath}/uc/shopping-cart">购物车</a>
       <form action="${contextPath}/logout" method="post" style="display: inline;">
         <sec:csrfInput />
         <button type="submit">退出</button>
