@@ -27,4 +27,7 @@ public interface ShoppingCartMapper {
 
     List<ShoppingCartItem> findAllItems(Long userId);
 
+    void removeItem(@Param("userId") Long userId, 
+                    @Param("cellphoneId") Long cellphoneId);
+
 }

@@ -41,4 +41,8 @@
       <result column="CELLPHONE_PRICE" property="price" />
     </association>
   </resultMap>
+  
+  <delete id="removeItem">
+    delete from SHOPPING_CART_ITEM where USER_ID = #{userId} and CELLPHONE_ID = #{cellphoneId}
+  </delete>
 </mapper>

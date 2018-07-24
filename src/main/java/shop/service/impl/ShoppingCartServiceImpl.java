@@ -34,4 +34,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.findAllItems(userId);
     }
 
+    @Override
+    public void removeItem(Long userId, Long cellphoneId) {
+        shoppingCartMapper.removeItem(userId, cellphoneId);
+    }
+
 }

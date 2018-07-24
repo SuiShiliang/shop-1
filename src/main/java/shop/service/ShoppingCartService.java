@@ -10,4 +10,6 @@ public interface ShoppingCartService {
 
     List<ShoppingCartItem> findAllItems(Long userId);
 
+    void removeItem(Long userId, Long cellphoneId);
+
 }

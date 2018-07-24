@@ -38,4 +38,11 @@ public class ShoppingCartController {
         model.addAttribute("shoppingCart", new ShoppingCart(shoppingCartItems));
         return "shopping-cart";
     }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/uc/shopping-cart/remove-item")
+    public String removeItem(@AuthenticationPrincipal(expression = "user.id") Long userId,
+                             @RequestParam Long cellphoneId) {
+        shoppingCartService.removeItem(userId, cellphoneId);
+        return "redirect:/uc/shopping-cart";
+    }
 }
