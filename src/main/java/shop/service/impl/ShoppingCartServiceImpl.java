@@ -22,7 +22,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void addToCart(Long userId, Long cellphoneId, int amount) {
-        Integer itemAmount = shoppingCartMapper.itemExists(userId, cellphoneId);
+        Integer itemAmount = shoppingCartMapper.findItemAmount(userId, cellphoneId);
         if (itemAmount != null) { // 该项已存在
             if (itemAmount + amount == 0) { // 应用差量后若为0
                 shoppingCartMapper.removeItem(userId, cellphoneId); // 删除该项

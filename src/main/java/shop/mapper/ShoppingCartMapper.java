@@ -8,7 +8,7 @@ import shop.model.ShoppingCartItem;
 
 public interface ShoppingCartMapper {
 
-    Integer itemExists(@Param("userId") Long userId, 
+    Integer findItemAmount(@Param("userId") Long userId, 
                        @Param("cellphoneId") Long cellphoneId);
 
     /**

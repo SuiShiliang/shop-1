@@ -5,7 +5,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="shop.mapper.ShoppingCartMapper">
-  <select id="itemExists" resultType="int">
+  <select id="findItemAmount" resultType="int">
     select AMOUNT from SHOPPING_CART_ITEM 
     where USER_ID = #{userId} and CELLPHONE_ID = #{cellphoneId}
   </select>
