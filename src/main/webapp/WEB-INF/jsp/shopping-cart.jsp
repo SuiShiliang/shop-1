@@ -19,4 +19,7 @@
       </tr>
     </c:forEach>
   </table>
+  <div>
+      总金额: ￥${shoppingCart.totalCost() / 100}
+  </div>
 </t:layout>

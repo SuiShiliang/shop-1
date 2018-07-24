@@ -13,5 +13,11 @@ public class ShoppingCart {
         return items;
     }
 
-    // TOOD 计算购物车总额
+    public int totalCost() {
+        int result = 0;
+        for (ShoppingCartItem item : items) {
+            result += item.getCellphone().getPrice() * item.getAmount();
+        }
+        return result;
+    }
 }
