@@ -29,6 +29,7 @@
     from SHOPPING_CART_ITEM i 
       inner join CELLPHONE c on i.CELLPHONE_ID = c.ID 
     where i.USER_ID = #{userId} 
+    order by c.ID
   </select>
   
   <resultMap type="ShoppingCartItem" id="itemDetailsMap">

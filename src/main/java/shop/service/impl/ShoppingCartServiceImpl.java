@@ -36,7 +36,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public List<ShoppingCartItem> findAllItems(Long userId) {
-        // TODO 排序
         return shoppingCartMapper.findAllItems(userId);
     }
 
