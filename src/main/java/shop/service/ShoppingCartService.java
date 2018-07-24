@@ -12,4 +12,8 @@ public interface ShoppingCartService {
 
     void removeItem(Long userId, Long cellphoneId);
 
+    void decItem(Long userId, Long cellphoneId);
+
+    void incItem(Long userId, Long cellphoneId);
+
 }

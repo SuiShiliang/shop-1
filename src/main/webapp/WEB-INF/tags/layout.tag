@@ -20,6 +20,7 @@
 </head>
 <body>
   <div class="header"> 
+    <a href="${contextPath}/">首页</a>
     <sec:authorize access="isAuthenticated()">
       <sec:authentication property="principal.username" />
       <a href="${contextPath}/uc/shopping-cart">购物车</a>

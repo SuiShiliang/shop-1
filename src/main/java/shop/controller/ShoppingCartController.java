@@ -45,4 +45,18 @@ public class ShoppingCartController {
         shoppingCartService.removeItem(userId, cellphoneId);
         return "redirect:/uc/shopping-cart";
     }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/uc/shopping-cart/item-dec")
+    public String decItem(@AuthenticationPrincipal(expression = "user.id") Long userId,
+                             @RequestParam Long cellphoneId) {
+        shoppingCartService.decItem(userId, cellphoneId);
+        return "redirect:/uc/shopping-cart";
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/uc/shopping-cart/item-inc")
+    public String incItem(@AuthenticationPrincipal(expression = "user.id") Long userId,
+                             @RequestParam Long cellphoneId) {
+        shoppingCartService.incItem(userId, cellphoneId);
+        return "redirect:/uc/shopping-cart";
+    }
 }

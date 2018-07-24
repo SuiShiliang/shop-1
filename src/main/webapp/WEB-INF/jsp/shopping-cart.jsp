@@ -15,7 +15,19 @@
       <tr>
         <td>${item.cellphone.brand} ${item.cellphone.model} ${item.cellphone.color}</td>
         <td>￥${item.cellphone.price / 100}</td>
-        <td>${item.amount}</td>
+        <td>
+          <form action="${contextPath}/uc/shopping-cart/item-dec" method="post" class="inline">
+            <sec:csrfInput />
+            <input type="hidden" name="cellphoneId" value="${item.cellphone.id}">
+            <button type="submit">-1</button>
+          </form>        
+          ${item.amount}
+          <form action="${contextPath}/uc/shopping-cart/item-inc" method="post" class="inline">
+            <sec:csrfInput />
+            <input type="hidden" name="cellphoneId" value="${item.cellphone.id}">
+            <button type="submit">+1</button>
+          </form>          
+        </td>
         <td>
           <form action="${contextPath}/uc/shopping-cart/remove-item" method="post">
             <sec:csrfInput />

@@ -22,8 +22,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void addToCart(Long userId, Long cellphoneId, int amount) {
-        if (shoppingCartMapper.itemExists(userId, cellphoneId)) {
-            shoppingCartMapper.incItemAmount(userId, cellphoneId, amount);
+        Integer itemAmount = shoppingCartMapper.itemExists(userId, cellphoneId);
+        if (itemAmount != null) { // 该项已存在
+            if (itemAmount + amount == 0) { // 应用差量后若为0
+                shoppingCartMapper.removeItem(userId, cellphoneId); // 删除该项
+            } else {
+                shoppingCartMapper.incItemAmount(userId, cellphoneId, amount);
+            }
         } else {
             shoppingCartMapper.createItem(userId, cellphoneId, amount);
         }
@@ -31,12 +36,23 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public List<ShoppingCartItem> findAllItems(Long userId) {
+        // TODO 排序
         return shoppingCartMapper.findAllItems(userId);
     }
 
     @Override
     public void removeItem(Long userId, Long cellphoneId) {
         shoppingCartMapper.removeItem(userId, cellphoneId);
+    }
+
+    @Override
+    public void decItem(Long userId, Long cellphoneId) {
+        addToCart(userId, cellphoneId, -1);
+    }
+
+    @Override
+    public void incItem(Long userId, Long cellphoneId) {
+        addToCart(userId, cellphoneId, +1);
     }
 
 }
