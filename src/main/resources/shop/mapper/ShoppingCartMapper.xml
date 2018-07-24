@@ -32,7 +32,10 @@
   </select>
   
   <resultMap type="ShoppingCartItem" id="itemDetailsMap">
+    <id column="USER_ID" />
+    <id column="CELLPHONE_ID" />
     <result column="AMOUNT" property="amount" />
+    
     <association property="cellphone" javaType="Cellphone">
       <id column="CELLPHONE_ID" property="id" />
       <result column="CELLPHONE_BRAND" property="brand" />
