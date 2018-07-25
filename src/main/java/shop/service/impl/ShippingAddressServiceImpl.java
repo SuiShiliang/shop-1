@@ -21,8 +21,8 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     }
 
     @Override
-    public List<ShippingAddress> findAll() {
-        return shippingAddressMapper.findAll();
+    public List<ShippingAddress> findAll(Long userId) {
+        return shippingAddressMapper.findAll(userId);
     }
 
     @Override

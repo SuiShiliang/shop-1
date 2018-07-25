@@ -6,7 +6,7 @@ import shop.model.ShippingAddress;
 
 public interface ShippingAddressMapper {
 
-    List<ShippingAddress> findAll();
+    List<ShippingAddress> findAll(Long userId);
 
     void create(ShippingAddress shippingAddress);
 

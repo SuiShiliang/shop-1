@@ -26,8 +26,9 @@ public class ShippingAddressController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/uc/shipping-addresses/")
-    public String list(Model model) {
-        List<ShippingAddress> shippingAddresses = shippingAddressService.findAll();
+    public String list(Model model,
+                       @AuthenticationPrincipal(expression = "user.id") Long userId) {
+        List<ShippingAddress> shippingAddresses = shippingAddressService.findAll(userId);
         model.addAttribute("shippingAddresses", shippingAddresses);
         return "shipping-address-list";
     }

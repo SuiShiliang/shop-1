@@ -6,7 +6,7 @@ import shop.model.ShippingAddress;
 
 public interface ShippingAddressService {
 
-    List<ShippingAddress> findAll();
+    List<ShippingAddress> findAll(Long userId);
 
     void create(ShippingAddress shippingAddress);
 

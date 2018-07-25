@@ -6,7 +6,7 @@
   
 <mapper namespace="shop.mapper.ShippingAddressMapper">
   <select id="findAll" resultType="ShippingAddress">
-    select * from SHIPPING_ADDRESS
+    select * from SHIPPING_ADDRESS where USER_ID = #{userId}
   </select>
   
   <insert id="create">
