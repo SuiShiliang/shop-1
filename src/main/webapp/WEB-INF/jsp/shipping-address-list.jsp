@@ -9,6 +9,9 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <t:layout title="收货地址列表">
+  <div>
+    <a href="${contextPath}/uc/shipping-addresses/add">添加</a>
+  </div>
   <table>
     <tr><th>姓名</th><th>手机号</th><th>地址</th></tr>
     <c:forEach items="${shippingAddresses}" var="shippingAddress">

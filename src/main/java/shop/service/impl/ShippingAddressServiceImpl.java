@@ -25,4 +25,9 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
         return shippingAddressMapper.findAll();
     }
 
+    @Override
+    public void create(ShippingAddress shippingAddress) {
+        shippingAddressMapper.create(shippingAddress);
+    }
+
 }

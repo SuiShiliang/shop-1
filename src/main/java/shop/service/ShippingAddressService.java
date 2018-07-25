@@ -8,4 +8,6 @@ public interface ShippingAddressService {
 
     List<ShippingAddress> findAll();
 
+    void create(ShippingAddress shippingAddress);
+
 }

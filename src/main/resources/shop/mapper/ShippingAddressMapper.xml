@@ -8,4 +8,9 @@
   <select id="findAll" resultType="ShippingAddress">
     select * from SHIPPING_ADDRESS
   </select>
+  
+  <insert id="create">
+    insert into SHIPPING_ADDRESS (USER_ID, NAME, PHONE_NUMBER, ADDRESS)
+    values (#{userId}, #{name}, #{phoneNumber}, #{address})
+  </insert>
 </mapper>

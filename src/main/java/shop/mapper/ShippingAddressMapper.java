@@ -8,4 +8,6 @@ public interface ShippingAddressMapper {
 
     List<ShippingAddress> findAll();
 
+    void create(ShippingAddress shippingAddress);
+
 }
