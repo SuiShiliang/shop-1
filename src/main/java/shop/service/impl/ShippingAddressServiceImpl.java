@@ -30,4 +30,14 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
         shippingAddressMapper.create(shippingAddress);
     }
 
+    @Override
+    public ShippingAddress findOne(Long userId, Long shippingAddressId) {
+        return shippingAddressMapper.findOne(userId, shippingAddressId);
+    }
+
+    @Override
+    public void update(ShippingAddress shippingAddress) {
+        shippingAddressMapper.update(shippingAddress);
+    }
+
 }

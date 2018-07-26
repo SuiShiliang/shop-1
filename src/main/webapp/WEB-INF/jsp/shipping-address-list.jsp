@@ -13,12 +13,13 @@
     <a href="${contextPath}/uc/shipping-addresses/add">添加</a>
   </div>
   <table>
-    <tr><th>姓名</th><th>手机号</th><th>地址</th></tr>
+    <tr><th>姓名</th><th>手机号</th><th>地址</th><th>操作</th></tr>
     <c:forEach items="${shippingAddresses}" var="shippingAddress">
       <tr>
         <td>${shippingAddress.name}</td>
         <td>${shippingAddress.phoneNumber}</td>
         <td>${shippingAddress.address}</td>
+        <td><a href="${contextPath}/uc/shipping-addresses/${shippingAddress.id}/edit">修改</a></td>
       </tr>
     </c:forEach>
   </table>

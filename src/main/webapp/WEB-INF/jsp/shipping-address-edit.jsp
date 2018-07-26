@@ -7,8 +7,9 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="title" value="${shippingAddress.id == null ? '添加收货地址' : '修改收货地址'}" />
 
-<t:layout title="添加收货地址">
+<t:layout title="${title}">
   <jsp:attribute name="css">
     <link href="${contextPath}/assets/css/form.css" rel="stylesheet">
   </jsp:attribute>
@@ -20,7 +21,7 @@
         <form:input path="name" />
         <form:errors path="name" cssClass="field-error" />
       </div>
-      
+
       <div>
         <label for="phoneNumber">手机号</label>
         <form:input path="phoneNumber"/>

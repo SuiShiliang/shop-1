@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -35,7 +36,7 @@ public class ShippingAddressController {
     
     @RequestMapping(method = RequestMethod.GET, value = "/uc/shipping-addresses/add")
     public String add(@ModelAttribute ShippingAddress shippingAddress) {
-        return "shipping-address-add";
+        return "shipping-address-edit";
     }
     
     @RequestMapping(method = RequestMethod.POST, value = "/uc/shipping-addresses/add")
@@ -43,10 +44,33 @@ public class ShippingAddressController {
                          BindingResult bindingResult, 
                          @AuthenticationPrincipal(expression = "user.id") Long userId) {
         if (bindingResult.hasErrors()) {
-            return "shipping-address-add";
+            return "shipping-address-edit";
         }
         shippingAddress.setUserId(userId);
         shippingAddressService.create(shippingAddress);
         return "redirect:/uc/shipping-addresses/";
     }    
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/uc/shipping-addresses/{id}/edit")
+    public String edit(@AuthenticationPrincipal(expression = "user.id") Long userId,
+                       @PathVariable Long id, 
+                       Model model) {
+        ShippingAddress shippingAddress = shippingAddressService.findOne(userId, id);
+        model.addAttribute("shippingAddress", shippingAddress);
+        return "shipping-address-edit";
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/uc/shipping-addresses/{id}/edit")
+    public String update(@AuthenticationPrincipal(expression = "user.id") Long userId,
+                         @ModelAttribute @Valid ShippingAddress shippingAddress,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "shipping-address-edit";
+        }
+        
+        shippingAddress.setUserId(userId);
+        shippingAddressService.update(shippingAddress);
+        return "redirect:/uc/shipping-addresses/";
+    }
+    
 }

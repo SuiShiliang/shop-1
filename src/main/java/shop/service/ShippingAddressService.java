@@ -10,4 +10,8 @@ public interface ShippingAddressService {
 
     void create(ShippingAddress shippingAddress);
 
+    ShippingAddress findOne(Long userId, Long shippingAddressId);
+
+    void update(ShippingAddress shippingAddress);
+
 }
