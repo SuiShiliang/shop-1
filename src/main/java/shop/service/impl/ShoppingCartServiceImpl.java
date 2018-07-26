@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mapper.ShoppingCartMapper;
+import shop.model.ShoppingCart;
 import shop.model.ShoppingCartItem;
 import shop.service.ShoppingCartService;
 
@@ -34,8 +35,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
     }
 
-    @Override
-    public List<ShoppingCartItem> findAllItems(Long userId) {
+    private List<ShoppingCartItem> findAllItems(Long userId) {
         return shoppingCartMapper.findAllItems(userId);
     }
 
@@ -52,6 +52,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void incItem(Long userId, Long cellphoneId) {
         addToCart(userId, cellphoneId, +1);
+    }
+
+    @Override
+    public ShoppingCart findOneByUserId(Long userId) {
+        return new ShoppingCart(findAllItems(userId));
     }
 
 }

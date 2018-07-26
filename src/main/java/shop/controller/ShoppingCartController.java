@@ -34,8 +34,8 @@ public class ShoppingCartController {
     @RequestMapping(method = RequestMethod.GET, value = "/uc/shopping-cart")
     public String details(@AuthenticationPrincipal(expression = "user.id") Long userId,
                           Model model) {
-        List<ShoppingCartItem> shoppingCartItems = shoppingCartService.findAllItems(userId);
-        model.addAttribute("shoppingCart", new ShoppingCart(shoppingCartItems));
+        ShoppingCart shoppingCart = shoppingCartService.findOneByUserId(userId);
+        model.addAttribute("shoppingCart", shoppingCart);
         return "shopping-cart";
     }
     

@@ -44,7 +44,8 @@
         </c:forEach>
       </table>     
       <div>
-                    总金额: ￥${shoppingCart.totalCost() / 100}
+        <div>总金额: ￥${shoppingCart.totalCost() / 100}</div>
+        <a href="${contextPath}/uc/orders/add">马上结算</a>
       </div>   
     </c:otherwise>
   </c:choose>
