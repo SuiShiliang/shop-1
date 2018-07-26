@@ -24,4 +24,18 @@
     <div>总金额: ￥${shoppingCart.totalCost() / 100}</div>
   </div>   
 
+  <form:form action="" method="post" commandName="orderForm">
+    <div>
+      <label for="shippingAddressId"></label>
+      <form:select path="shippingAddressId">
+        <form:option value="">--请选择收货地址--</form:option>
+        <form:options items="${shippingAddresses}" itemLabel="name" itemValue="id" />
+      </form:select>      
+    </div>
+
+    <div>
+      <button type="submit">确认</button>
+    </div>
+  </form:form>
+    
 </t:layout>
