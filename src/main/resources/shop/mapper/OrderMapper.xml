@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="shop.mapper.OrderMapper">
+  <insert id="create" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+    insert into "ORDER" (USER_ID, SHIPPING_ADDRESS_ID, CREATED_TIME) 
+    values (#{userId}, #{shippingAddress.id}, #{createdTime})
+  </insert>
+  
+  <insert id="addItem">
+    insert into ORDER_ITEM (ORDER_ID, CELLPHONE_ID, AMOUNT) 
+    values (#{orderId}, #{cellphone.id}, #{amount})
+  </insert>
+</mapper>

@@ -30,4 +30,6 @@ public interface ShoppingCartMapper {
     void removeItem(@Param("userId") Long userId, 
                     @Param("cellphoneId") Long cellphoneId);
 
+    void deleteItemsByUserId(Long userId);
+
 }

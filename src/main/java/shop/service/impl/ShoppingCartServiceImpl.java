@@ -59,4 +59,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return new ShoppingCart(findAllItems(userId));
     }
 
+    @Override
+    public void clearCart(Long userId) {
+        shoppingCartMapper.deleteItemsByUserId(userId);
+    }
+
 }

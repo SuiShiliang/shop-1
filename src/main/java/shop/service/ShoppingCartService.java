@@ -14,4 +14,6 @@ public interface ShoppingCartService {
 
     ShoppingCart findOneByUserId(Long userId);
 
+    void clearCart(Long userId);
+
 }
