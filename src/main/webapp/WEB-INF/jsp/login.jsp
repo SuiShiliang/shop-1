@@ -33,6 +33,10 @@
       <input type="password" name="password" id="password">    
     </div>
     <div>
+      <label for="remember-me">记住我</label>
+      <input type="checkbox" name="remember-me" id="remember-me" checked>    
+    </div>    
+    <div>
       <button type="submit">登录</button>
     </div>
   </form>
