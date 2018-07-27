@@ -10,12 +10,6 @@
     where USER_ID = #{userId} and CELLPHONE_ID = #{cellphoneId}
   </select>
   
-  <update id="incItemAmount">
-    update SHOPPING_CART_ITEM 
-    set AMOUNT = AMOUNT + #{amount} 
-    where USER_ID = #{userId} and CELLPHONE_ID = #{cellphoneId}
-  </update>
-  
   <insert id="createItem">
     insert into SHOPPING_CART_ITEM (USER_ID, CELLPHONE_ID, AMOUNT)
     values (#{userId}, #{cellphoneId}, #{amount})
@@ -53,4 +47,10 @@
   <delete id="deleteItemsByUserId">
     delete from SHOPPING_CART_ITEM where USER_ID = #{userId}
   </delete>
+  
+  <update id="updateItemAmount">
+    update SHOPPING_CART_ITEM 
+    set AMOUNT = #{amount} 
+    where USER_ID = #{userId} and CELLPHONE_ID = #{cellphoneId}    
+  </update>
 </mapper>

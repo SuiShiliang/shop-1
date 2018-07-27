@@ -1,7 +1,5 @@
 package shop.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -9,9 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import shop.model.ShoppingCart;
-import shop.model.ShoppingCartItem;
 import shop.service.ShoppingCartService;
 
 @Controller
@@ -46,17 +44,12 @@ public class ShoppingCartController {
         return "redirect:/uc/shopping-cart";
     }
     
-    @RequestMapping(method = RequestMethod.POST, value = "/uc/shopping-cart/item-dec")
-    public String decItem(@AuthenticationPrincipal(expression = "user.id") Long userId,
-                             @RequestParam Long cellphoneId) {
-        shoppingCartService.decItem(userId, cellphoneId);
-        return "redirect:/uc/shopping-cart";
-    }
-    
-    @RequestMapping(method = RequestMethod.POST, value = "/uc/shopping-cart/item-inc")
-    public String incItem(@AuthenticationPrincipal(expression = "user.id") Long userId,
-                             @RequestParam Long cellphoneId) {
-        shoppingCartService.incItem(userId, cellphoneId);
-        return "redirect:/uc/shopping-cart";
+    @RequestMapping(method = RequestMethod.POST, value = "/uc/shopping-cart/update-item-amount")
+    @ResponseBody // 把返回值作为响应内容，加了jackson库之后，会转换为json文本
+    public ShoppingCart updateItemAmount(@AuthenticationPrincipal(expression = "user.id") Long userId,
+                                         @RequestParam Long cellphoneId,
+                                         @RequestParam Integer amount) {
+        shoppingCartService.updateItemAmount(userId, cellphoneId, amount);
+        return shoppingCartService.findOneByUserId(userId);
     }
 }

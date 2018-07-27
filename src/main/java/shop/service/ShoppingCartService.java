@@ -8,12 +8,10 @@ public interface ShoppingCartService {
 
     void removeItem(Long userId, Long cellphoneId);
 
-    void decItem(Long userId, Long cellphoneId);
-
-    void incItem(Long userId, Long cellphoneId);
-
     ShoppingCart findOneByUserId(Long userId);
 
     void clearCart(Long userId);
+
+    void updateItemAmount(Long userId, Long cellphoneId, Integer amount);
 
 }

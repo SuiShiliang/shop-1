@@ -25,11 +25,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void addToCart(Long userId, Long cellphoneId, int amount) {
         Integer itemAmount = shoppingCartMapper.findItemAmount(userId, cellphoneId);
         if (itemAmount != null) { // 该项已存在
-            if (itemAmount + amount == 0) { // 应用差量后若为0
-                shoppingCartMapper.removeItem(userId, cellphoneId); // 删除该项
-            } else {
-                shoppingCartMapper.incItemAmount(userId, cellphoneId, amount);
-            }
+            shoppingCartMapper.updateItemAmount(userId, cellphoneId, itemAmount + amount);
         } else {
             shoppingCartMapper.createItem(userId, cellphoneId, amount);
         }
@@ -45,16 +41,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void decItem(Long userId, Long cellphoneId) {
-        addToCart(userId, cellphoneId, -1);
-    }
-
-    @Override
-    public void incItem(Long userId, Long cellphoneId) {
-        addToCart(userId, cellphoneId, +1);
-    }
-
-    @Override
     public ShoppingCart findOneByUserId(Long userId) {
         return new ShoppingCart(findAllItems(userId));
     }
@@ -62,6 +48,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void clearCart(Long userId) {
         shoppingCartMapper.deleteItemsByUserId(userId);
+    }
+
+    @Override
+    public void updateItemAmount(Long userId, Long cellphoneId, Integer amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("购物车项的数量必须大于0");
+        }
+        shoppingCartMapper.updateItemAmount(userId, cellphoneId, amount);
     }
 
 }
