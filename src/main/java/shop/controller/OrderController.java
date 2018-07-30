@@ -75,4 +75,12 @@ public class OrderController {
         model.addAttribute("order", order);
         return "order-details";
     }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/uc/orders/")
+    public String list(@AuthenticationPrincipal(expression = "user.id") Long userId,
+                       Model model) {
+        List<Order> orders = orderService.findAll(userId);
+        model.addAttribute("orders", orders);
+        return "order-list";
+    }
 }

@@ -25,6 +25,7 @@
       <sec:authentication property="principal.username" />
       <a href="${contextPath}/uc/shopping-cart">购物车</a>
       <a href="${contextPath}/uc/shipping-addresses/">收货地址</a>
+      <a href="${contextPath}/uc/orders/">订单</a>
       <form action="${contextPath}/logout" method="post" style="display: inline;">
         <sec:csrfInput />
         <button type="submit">退出</button>

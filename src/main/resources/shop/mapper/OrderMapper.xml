@@ -52,4 +52,8 @@
       </association>
     </collection>
   </resultMap>
+  
+  <select id="findAll" resultType="Order">
+    select * from "ORDER" where USER_ID = #{userId}
+  </select>
 </mapper>

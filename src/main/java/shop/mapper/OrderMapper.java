@@ -1,5 +1,7 @@
 package shop.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import shop.model.Order;
@@ -13,5 +15,7 @@ public interface OrderMapper {
 
     Order findOne(@Param("userId") Long userId, 
                   @Param("orderId") Long orderId);
+
+    List<Order> findAll(Long userId);
 
 }
