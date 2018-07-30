@@ -57,4 +57,9 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
+    @Override
+    public Order findOne(Long userId, Long orderId) {
+        return orderMapper.findOne(userId, orderId);
+    }
+
 }

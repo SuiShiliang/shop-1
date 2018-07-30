@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -64,5 +65,14 @@ public class OrderController {
         }
         Order order = orderService.create(userId, orderForm.getShippingAddressId());
         return "redirect:/uc/orders/" + order.getId();
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/uc/orders/{id}")
+    public String details(@AuthenticationPrincipal(expression = "user.id") Long userId,
+                          @PathVariable Long id,
+                          Model model) {
+        Order order = orderService.findOne(userId, id);
+        model.addAttribute("order", order);
+        return "order-details";
     }
 }

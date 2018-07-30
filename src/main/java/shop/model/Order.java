@@ -1,12 +1,16 @@
 package shop.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Order {
     private Long id;
     private Long userId;
     private ShippingAddress shippingAddress;
     private Date createdTime;
+    
+    private List<OrderItem> items = new ArrayList<>();
     
     public Long getId() {
         return id;
@@ -33,4 +37,18 @@ public class Order {
         this.createdTime = createdTime;
     }
     
+    public List<OrderItem> getItems() {
+        return items;
+    }
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
+    
+    public int totalCost() {
+        int result = 0;
+        for (OrderItem item : items) {
+            result += item.getCellphone().getPrice() * item.getAmount();
+        }
+        return result;
+    }
 }

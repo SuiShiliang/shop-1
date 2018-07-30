@@ -14,4 +14,42 @@
     insert into ORDER_ITEM (ORDER_ID, CELLPHONE_ID, AMOUNT) 
     values (#{orderId}, #{cellphone.id}, #{amount})
   </insert>
+  
+  <select id="findOne" resultMap="orderDetailsMap">
+    select 
+      o.ID ORDER_ID, o.CREATED_TIME ORDER_CREATED_TIME, 
+      a.ID ADDRESS_ID, a.NAME ADDRESS_NAME, a.PHONE_NUMBER ADDRESS_PHONE_NUMBER, a.ADDRESS ADDRESS_DETAILS, 
+      i.AMOUNT ITEM_AMOUNT, 
+      c.ID CELLPHONE_ID, c.BRAND CELLPHONE_BRAND, c.MODEL CELLPHONE_MODEL, c.PRICE CELLPHONE_PRICE
+    from "ORDER" o 
+      inner join SHIPPING_ADDRESS a on o.SHIPPING_ADDRESS_ID = a.ID 
+      inner join ORDER_ITEM i on i.ORDER_ID = o.ID 
+      inner join CELLPHONE c on i.CELLPHONE_ID = c.ID
+    where o.USER_ID = #{userId} and o.ID = #{orderId}
+  </select>
+  
+  <resultMap type="Order" id="orderDetailsMap">
+    <id column="ORDER_ID" property="id" />
+    <result column="ORDER_CREATED_TIME" property="createdTime" />
+    
+    <association property="shippingAddress" javaType="ShippingAddress">
+      <id column="ADDRESS_ID" property="id" />
+      <result column="ADDRESS_NAME" property="name" />
+      <result column="ADDRESS_PHONE_NUMBER" property="phoneNumber" />
+      <result column="ADDRESS_DETAILS" property="address" />
+    </association>
+    
+    <collection property="items" ofType="OrderItem">
+      <id column="ORDER_ID" />
+      <id column="CELLPHONE_ID" />
+      <result column="ITEM_AMOUNT" property="amount" />
+      
+      <association property="cellphone" javaType="Cellphone">
+        <id column="CELLPHONE_ID" property="id" />
+        <result column="CELLPHONE_BRAND" property="brand" />
+        <result column="CELLPHONE_MODEL" property="model" />
+        <result column="CELLPHONE_PRICE" property="price" />
+      </association>
+    </collection>
+  </resultMap>
 </mapper>
