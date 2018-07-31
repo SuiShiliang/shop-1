@@ -8,12 +8,12 @@ import shop.model.ShoppingCartItem;
 
 public interface ShoppingCartMapper {
 
-    Integer findItemAmount(@Param("userId") Long userId, 
+    Integer findItemQuantity(@Param("userId") Long userId, 
                        @Param("cellphoneId") Long cellphoneId);
 
     void createItem(@Param("userId") Long userId, 
                     @Param("cellphoneId") Long cellphoneId, 
-                    @Param("amount") int amount);
+                    @Param("quantity") int quantity);
 
     List<ShoppingCartItem> findAllItems(Long userId);
 
@@ -22,8 +22,8 @@ public interface ShoppingCartMapper {
 
     void deleteItemsByUserId(Long userId);
 
-    void updateItemAmount(@Param("userId") Long userId, 
-                          @Param("cellphoneId") Long cellphoneId, 
-                          @Param("amount") int amount);
+    void updateItemQuantity(@Param("userId") Long userId, 
+                            @Param("cellphoneId") Long cellphoneId, 
+                            @Param("quantity") int quantity);
 
 }

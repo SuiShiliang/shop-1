@@ -4,7 +4,7 @@ import shop.model.ShoppingCart;
 
 public interface ShoppingCartService {
 
-    void addToCart(Long userId, Long cellphoneId, int amount);
+    void addToCart(Long userId, Long cellphoneId, int quantity);
 
     void removeItem(Long userId, Long cellphoneId);
 
@@ -12,6 +12,6 @@ public interface ShoppingCartService {
 
     void clearCart(Long userId);
 
-    void updateItemAmount(Long userId, Long cellphoneId, Integer amount);
+    void updateItemQuantity(Long userId, Long cellphoneId, Integer quantity);
 
 }

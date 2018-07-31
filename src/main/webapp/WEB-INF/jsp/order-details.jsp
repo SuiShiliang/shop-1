@@ -21,7 +21,7 @@
         <tr>
           <td>${item.cellphone.brand} ${item.cellphone.model} ${item.cellphone.color}</td>
           <td>￥${item.cellphone.price / 100}</td>
-          <td>${item.amount}</td>
+          <td>${item.quantity}</td>
         </tr>
       </c:forEach>
     </table>

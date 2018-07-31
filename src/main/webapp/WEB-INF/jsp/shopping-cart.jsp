@@ -31,8 +31,8 @@
               <td>${item.cellphone.brand} ${item.cellphone.model} ${item.cellphone.color}</td>
               <td>￥${item.cellphone.price / 100}</td>
               <td>
-                <input type="number" min="1" value="${item.amount}" 
-                       class="item-amount" 
+                <input type="number" min="1" value="${item.quantity}" 
+                       class="item-quantity" 
                        data-cellphone-id="${item.cellphone.id}">  
               </td>
               <td>

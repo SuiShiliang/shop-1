@@ -47,7 +47,7 @@ public class Order {
     public int totalCost() {
         int result = 0;
         for (OrderItem item : items) {
-            result += item.getCellphone().getPrice() * item.getAmount();
+            result += item.getCellphone().getPrice() * item.getQuantity();
         }
         return result;
     }

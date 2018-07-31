@@ -5,19 +5,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="shop.mapper.ShoppingCartMapper">
-  <select id="findItemAmount" resultType="int">
-    select AMOUNT from SHOPPING_CART_ITEM 
+  <select id="findItemQuantity" resultType="int">
+    select QUANTITY from SHOPPING_CART_ITEM 
     where USER_ID = #{userId} and CELLPHONE_ID = #{cellphoneId}
   </select>
   
   <insert id="createItem">
-    insert into SHOPPING_CART_ITEM (USER_ID, CELLPHONE_ID, AMOUNT)
-    values (#{userId}, #{cellphoneId}, #{amount})
+    insert into SHOPPING_CART_ITEM (USER_ID, CELLPHONE_ID, QUANTITY)
+    values (#{userId}, #{cellphoneId}, #{quantity})
   </insert>
   
   <select id="findAllItems" resultMap="itemDetailsMap">
     select 
-      i.USER_ID, i.AMOUNT, 
+      i.USER_ID, i.QUANTITY, 
       c.ID CELLPHONE_ID, c.BRAND CELLPHONE_BRAND, c.MODEL CELLPHONE_MODEL, 
         c.COLOR CELLPHONE_COLOR, c.PRICE CELLPHONE_PRICE  
     from SHOPPING_CART_ITEM i 
@@ -29,7 +29,7 @@
   <resultMap type="ShoppingCartItem" id="itemDetailsMap">
     <id column="USER_ID" />
     <id column="CELLPHONE_ID" />
-    <result column="AMOUNT" property="amount" />
+    <result column="QUANTITY" property="quantity" />
     
     <association property="cellphone" javaType="Cellphone">
       <id column="CELLPHONE_ID" property="id" />
@@ -48,9 +48,9 @@
     delete from SHOPPING_CART_ITEM where USER_ID = #{userId}
   </delete>
   
-  <update id="updateItemAmount">
+  <update id="updateItemQuantity">
     update SHOPPING_CART_ITEM 
-    set AMOUNT = #{amount} 
+    set QUANTITY = #{quantity} 
     where USER_ID = #{userId} and CELLPHONE_ID = #{cellphoneId}    
   </update>
 </mapper>

@@ -44,12 +44,12 @@ public class ShoppingCartController {
         return "redirect:/uc/shopping-cart";
     }
     
-    @RequestMapping(method = RequestMethod.POST, value = "/uc/shopping-cart/update-item-amount")
+    @RequestMapping(method = RequestMethod.POST, value = "/uc/shopping-cart/update-item-quantity")
     @ResponseBody // 把返回值作为响应内容，加了jackson库之后，会转换为json文本
-    public ShoppingCart updateItemAmount(@AuthenticationPrincipal(expression = "user.id") Long userId,
+    public ShoppingCart updateItemQuantity(@AuthenticationPrincipal(expression = "user.id") Long userId,
                                          @RequestParam Long cellphoneId,
-                                         @RequestParam Integer amount) {
-        shoppingCartService.updateItemAmount(userId, cellphoneId, amount);
+                                         @RequestParam Integer quantity) {
+        shoppingCartService.updateItemQuantity(userId, cellphoneId, quantity);
         return shoppingCartService.findOneByUserId(userId);
     }
 }

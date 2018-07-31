@@ -3,7 +3,7 @@ package shop.model;
 public class OrderItem {
     private Long orderId;
     private Cellphone cellphone;
-    private Integer amount;
+    private Integer quantity;
     
     public Long getOrderId() {
         return orderId;
@@ -17,11 +17,11 @@ public class OrderItem {
     public void setCellphone(Cellphone cellphone) {
         this.cellphone = cellphone;
     }
-    public Integer getAmount() {
-        return amount;
+    public Integer getQuantity() {
+        return quantity;
     }
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
     
 }

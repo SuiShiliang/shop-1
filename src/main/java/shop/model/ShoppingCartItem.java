@@ -2,7 +2,7 @@ package shop.model;
 
 public class ShoppingCartItem {
     private Cellphone cellphone;
-    private int amount;
+    private int quantity;
     
     public Cellphone getCellphone() {
         return cellphone;
@@ -10,10 +10,10 @@ public class ShoppingCartItem {
     public void setCellphone(Cellphone cellphone) {
         this.cellphone = cellphone;
     }
-    public int getAmount() {
-        return amount;
+    public int getQuantity() {
+        return quantity;
     }
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

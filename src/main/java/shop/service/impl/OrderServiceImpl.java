@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrderId(order.getId());
             orderItem.setCellphone(cartItem.getCellphone());
-            orderItem.setAmount(cartItem.getAmount());
+            orderItem.setQuantity(cartItem.getQuantity());
             orderMapper.addItem(orderItem);
         }
         

@@ -19,7 +19,7 @@ public class ShoppingCart {
     public int totalCost() {
         int result = 0;
         for (ShoppingCartItem item : items) {
-            result += item.getCellphone().getPrice() * item.getAmount();
+            result += item.getCellphone().getPrice() * item.getQuantity();
         }
         return result;
     }

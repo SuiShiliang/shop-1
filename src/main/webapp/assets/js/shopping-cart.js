@@ -1,6 +1,6 @@
 console.log('shopping-cart.js');
 
-$('.item-amount').change(function() {
+$('.item-quantity').change(function() {
     console.log('数量变了，发送ajax请求');
     
     var csrfParamName = $('meta[name="_csrf_parameter"]').attr('content');
@@ -8,11 +8,11 @@ $('.item-amount').change(function() {
     
     var data = {
         cellphoneId: $(this).data('cellphone-id'),
-        amount: $(this).val()
+        quantity: $(this).val()
     };
     data[csrfParamName] = csrfParamValue;
     
-    $.ajax('/shop/uc/shopping-cart/update-item-amount', {
+    $.ajax('/shop/uc/shopping-cart/update-item-quantity', {
         method: 'POST',
         data: data // 该data将以表单数据格式编码成文本（Content-Type: application/x-www-form-urlencoded）
     }).then(function(cart) {
