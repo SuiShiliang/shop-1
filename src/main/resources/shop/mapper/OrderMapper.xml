@@ -6,8 +6,8 @@
   
 <mapper namespace="shop.mapper.OrderMapper">
   <insert id="create" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
-    insert into "ORDER" (USER_ID, SHIPPING_ADDRESS_ID, CREATED_TIME) 
-    values (#{userId}, #{shippingAddress.id}, #{createdTime})
+    insert into "ORDER" (USER_ID, SHIPPING_ADDRESS_ID, CREATED_TIME, "STATE") 
+    values (#{userId}, #{shippingAddress.id}, #{createdTime}, #{state})
   </insert>
   
   <insert id="addItem">
@@ -17,7 +17,7 @@
   
   <select id="findOne" resultMap="orderDetailsMap">
     select 
-      o.ID ORDER_ID, o.CREATED_TIME ORDER_CREATED_TIME, 
+      o.ID ORDER_ID, o.CREATED_TIME ORDER_CREATED_TIME, o."STATE" ORDER_STATE,
       a.ID ADDRESS_ID, a.NAME ADDRESS_NAME, a.PHONE_NUMBER ADDRESS_PHONE_NUMBER, a.ADDRESS ADDRESS_DETAILS, 
       i.QUANTITY ITEM_QUANTITY, 
       c.ID CELLPHONE_ID, c.BRAND CELLPHONE_BRAND, c.MODEL CELLPHONE_MODEL, c.PRICE CELLPHONE_PRICE
@@ -31,6 +31,7 @@
   <resultMap type="Order" id="orderDetailsMap">
     <id column="ORDER_ID" property="id" />
     <result column="ORDER_CREATED_TIME" property="createdTime" />
+    <result column="ORDER_STATE" property="state" />
     
     <association property="shippingAddress" javaType="ShippingAddress">
       <id column="ADDRESS_ID" property="id" />

@@ -10,6 +10,8 @@ public class Order {
     private ShippingAddress shippingAddress;
     private Date createdTime;
     
+    private OrderState state;
+    
     private List<OrderItem> items = new ArrayList<>();
     
     public Long getId() {
@@ -44,11 +46,43 @@ public class Order {
         this.items = items;
     }
     
+    public OrderState getState() {
+        return state;
+    }
+    public void setState(OrderState state) {
+        this.state = state;
+    }
+    
     public int totalCost() {
         int result = 0;
         for (OrderItem item : items) {
             result += item.getCellphone().getPrice() * item.getQuantity();
         }
         return result;
+    }
+    
+    public String stateText() {
+        switch (state) {
+        case Created:
+            return "待支付";
+            
+        case Paid:
+            return "待发货";
+            
+        case Shipped:
+            return "已发货";
+            
+        case Delivered:
+            return "已送达";
+            
+        case Commented:
+            return "已评论";
+            
+        case Canceled:
+            return "已取消";
+
+        default:
+            return "?" + state;
+        }
     }
 }

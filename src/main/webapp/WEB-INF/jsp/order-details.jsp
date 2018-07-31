@@ -12,7 +12,8 @@
 <t:layout title="订单详情">
   <jsp:body>
     <div>
-             订单创建于: <fmt:formatDate value="${order.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+      <div>订单创建于: <fmt:formatDate value="${order.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+      <div>订单状态: ${order.stateText()}</div>  
     </div>
     <table> 
       <caption>订单项</caption>

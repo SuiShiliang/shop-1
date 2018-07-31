@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.mapper.OrderMapper;
 import shop.model.Order;
 import shop.model.OrderItem;
+import shop.model.OrderState;
 import shop.model.ShippingAddress;
 import shop.model.ShoppingCart;
 import shop.model.ShoppingCartItem;
@@ -39,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
         shippingAddress.setId(shippingAddressId);
         order.setShippingAddress(shippingAddress);
         order.setCreatedTime(new Date());
+        order.setState(OrderState.Created);
         
         orderMapper.create(order);
         

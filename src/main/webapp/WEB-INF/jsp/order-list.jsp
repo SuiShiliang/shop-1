@@ -12,10 +12,11 @@
 <t:layout title="我的订单">
   <jsp:body>
     <table> 
-      <tr><th>创建时间</th><th>操作</th></tr>
+      <tr><th>创建时间</th><th>订单状态</th><th>操作</th></tr>
       <c:forEach items="${orders}" var="order">
         <tr>
           <td><fmt:formatDate value="${order.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+          <td>${order.stateText()}</td>
           <td><a href="${contextPath}/uc/orders/${order.id}">详情</a></td>
         </tr>
       </c:forEach>
