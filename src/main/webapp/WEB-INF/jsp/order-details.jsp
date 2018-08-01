@@ -33,5 +33,14 @@
     <div>收货地址: 
       ${order.shippingAddress.name}(${order.shippingAddress.address})
     </div>
+    
+    <c:if test="${order.state == 'Created'}">
+      <div>
+        <form action="${contextPath}/uc/orders/${order.id}/pay" method="post">
+          <sec:csrfInput />
+          <button type="submit">支付宝付款</button>
+        </form>
+      </div>    
+    </c:if>
   </jsp:body>
 </t:layout>

@@ -1,7 +1,11 @@
 package shop.config;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.sql.DataSource;
 
+import org.apache.commons.io.FileUtils;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +21,9 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
 
 
 @Configuration
@@ -57,4 +64,17 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }    
+    
+    @Bean
+    public AlipayClient alipayClient() throws IOException {
+        return new DefaultAlipayClient(
+                "https://openapi.alipay.com/gateway.do",
+                "2018052360246120",
+                FileUtils.readFileToString(new File("D:/zhujunqi/alipay/app-private-key.txt"), "UTF-8"),
+                "json",
+                "UTF-8",
+                FileUtils.readFileToString(new File("D:/zhujunqi/alipay/alipay-public-key.txt"), "UTF-8"),
+                "RSA2"
+                );
+    }
 }
