@@ -24,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Configuration
@@ -76,5 +77,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
                 FileUtils.readFileToString(new File(env.getProperty("alipay.appPrivateKeyFile")), "UTF-8"),
                 env.getProperty("alipay.signType")
                 );
+    }
+    
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }
