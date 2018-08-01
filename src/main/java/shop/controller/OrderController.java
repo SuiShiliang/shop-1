@@ -1,7 +1,5 @@
 package shop.controller;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,18 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alipay.api.AlipayApiException;
-import com.alipay.api.AlipayClient;
-import com.alipay.api.request.AlipayTradePagePayRequest;
-
 import shop.controller.form.OrderForm;
 import shop.model.Order;
-import shop.model.OrderState;
 import shop.model.ShippingAddress;
 import shop.model.ShoppingCart;
 import shop.service.OrderService;
 import shop.service.ShippingAddressService;
 import shop.service.ShoppingCartService;
+
+import com.alipay.api.AlipayApiException;
 
 @Controller
 public class OrderController {
@@ -39,16 +34,13 @@ public class OrderController {
     
     private OrderService orderService;
     
-    private AlipayClient alipayClient;
-    
     @Autowired
     public OrderController(ShoppingCartService shoppingCartService,
                            ShippingAddressService shippingAddressService,
-                           OrderService orderService, AlipayClient alipayClient) {
+                           OrderService orderService) {
         this.shoppingCartService = shoppingCartService;
         this.shippingAddressService = shippingAddressService;
         this.orderService = orderService;
-        this.alipayClient = alipayClient;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/uc/orders/add")
@@ -102,27 +94,7 @@ public class OrderController {
     @ResponseBody
     public String pay(@AuthenticationPrincipal(expression = "user.id") Long userId,
                       @PathVariable Long id) throws AlipayApiException {
-        Order order = orderService.findOne(userId, id);
-        
-        if (order.getState() != OrderState.Created) {
-            throw new IllegalStateException("只有Created状态的订单才能发起支付");
-        }
-        
-        BigDecimal totalAmount = BigDecimal.valueOf(order.totalCost()).divide(BigDecimal.valueOf(100)); // 订单总金额（元）
-        
-        AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest(); // 即将发送给支付宝的请求（电脑网站支付请求）
-        alipayRequest.setReturnUrl("http://shop.me/shop/uc/orders/sync-pay-cb"); // 浏览器端完成支付后跳转回商户的地址（同步通知）
-        alipayRequest.setNotifyUrl("http://shop.me/shop/async-pay-cb"); // 支付宝服务端确认支付成功后通知商户的地址（异步通知）
-        alipayRequest.setBizContent("{" +
-            "    \"out_trade_no\":\"" + id.toString() + "-" + new Date().getTime() + "\"," + // 商户订单号，加时间戳是为了避免测试时订单号重复
-            "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," + // 产品码，固定
-            "    \"total_amount\":" + totalAmount.toString() + "," + // 订单总金额（元）
-            "    \"subject\":\"shop手机商城订单支付\"," + // 订单标题
-            "    \"body\":\"TODO 显示订单项概要\"" + // 订单描述
-            "  }"); // 填充业务参数
-        
-        // 直接将完整的表单html输出到页面
-        return alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成支付表单
+        return orderService.payForm(userId, id);
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "/uc/orders/sync-pay-cb")

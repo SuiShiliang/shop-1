@@ -12,4 +12,6 @@ public interface OrderService {
 
     List<Order> findAll(Long userId);
 
+    String payForm(Long userId, Long id);
+
 }
