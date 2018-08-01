@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,13 +32,19 @@ public class OrderServiceImpl implements OrderService {
     
     private AlipayClient alipayClient;
     
+    private String alipayReturnUrl;
+    private String alipayNotifyUrl;
+    
     @Autowired
     public OrderServiceImpl(OrderMapper orderMapper,
                             ShoppingCartService shoppingCartService, 
-                            AlipayClient alipayClient) {
+                            AlipayClient alipayClient,
+                            Environment env) {
         this.orderMapper = orderMapper;
         this.shoppingCartService = shoppingCartService;
         this.alipayClient = alipayClient;
+        this.alipayReturnUrl = env.getProperty("alipay.returnUrl");
+        this.alipayNotifyUrl = env.getProperty("alipay.notifyUrl");
     }
 
 
@@ -91,8 +98,8 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal totalAmount = BigDecimal.valueOf(order.totalCost()).divide(BigDecimal.valueOf(100)); // 订单总金额（元）
         
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest(); // 即将发送给支付宝的请求（电脑网站支付请求）
-        alipayRequest.setReturnUrl("http://shop.me/shop/uc/orders/sync-pay-cb"); // 浏览器端完成支付后跳转回商户的地址（同步通知）
-        alipayRequest.setNotifyUrl("http://shop.me/shop/async-pay-cb"); // 支付宝服务端确认支付成功后通知商户的地址（异步通知）
+        alipayRequest.setReturnUrl(alipayReturnUrl); // 浏览器端完成支付后跳转回商户的地址（同步通知）
+        alipayRequest.setNotifyUrl(alipayNotifyUrl); // 支付宝服务端确认支付成功后通知商户的地址（异步通知）
         alipayRequest.setBizContent("{" +
             "    \"out_trade_no\":\"" + id.toString() + "-" + new Date().getTime() + "\"," + // 商户订单号，加时间戳是为了避免测试时订单号重复
             "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," + // 产品码，固定

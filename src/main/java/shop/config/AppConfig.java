@@ -29,7 +29,7 @@ import com.alipay.api.DefaultAlipayClient;
 @Configuration
 @ComponentScan("shop")
 @EnableWebMvc 
-@PropertySource("classpath:jdbc.properties")
+@PropertySource({"classpath:jdbc.properties", "classpath:alipay.properties"})
 @MapperScan("shop.mapper")
 public class AppConfig extends WebMvcConfigurerAdapter {
     @Override
@@ -66,15 +66,15 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     }    
     
     @Bean
-    public AlipayClient alipayClient() throws IOException {
+    public AlipayClient alipayClient(Environment env) throws IOException {
         return new DefaultAlipayClient(
                 "https://openapi.alipay.com/gateway.do",
-                "2018052360246120",
-                FileUtils.readFileToString(new File("D:/zhujunqi/alipay/app-private-key.txt"), "UTF-8"),
+                env.getProperty("alipay.appId"),
+                FileUtils.readFileToString(new File(env.getProperty("alipay.appPrivateKeyFile")), "UTF-8"),
                 "json",
                 "UTF-8",
-                FileUtils.readFileToString(new File("D:/zhujunqi/alipay/alipay-public-key.txt"), "UTF-8"),
-                "RSA2"
+                FileUtils.readFileToString(new File(env.getProperty("alipay.appPrivateKeyFile")), "UTF-8"),
+                env.getProperty("alipay.signType")
                 );
     }
 }
