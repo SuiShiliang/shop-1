@@ -109,4 +109,11 @@ public class OrderController {
         model.addAttribute("orderId", orderId);
         return "order-pay-ok";
     }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/async-pay-cb")
+    @ResponseBody // 响应内容是text/plain
+    public String onPayResult(@RequestParam Map<String, String> paramMap) {
+        orderService.handlePayResult(paramMap);
+        return "success";
+    }
 }

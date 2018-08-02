@@ -27,6 +27,7 @@ import shop.model.OrderState;
 import shop.model.ShippingAddress;
 import shop.model.ShoppingCart;
 import shop.model.ShoppingCartItem;
+import shop.service.AlipayResultException;
 import shop.service.AlipaySignatureException;
 import shop.service.OrderService;
 import shop.service.ShoppingCartService;
@@ -44,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
     private String alipayNotifyUrl;
     private String alipayPublicKey;
     private String alipaySignType;
+    private String appId;
     
     private ObjectMapper objectMapper;
     
@@ -63,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
                 new File(env.getProperty("alipay.alipayPublicKeyFile")), 
                 "UTF-8");
         this.alipaySignType = env.getProperty("alipay.signType");
+        this.appId = env.getProperty("alipay.appId");
         
         this.objectMapper = objectMapper;
     }
@@ -114,7 +117,8 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalStateException("只有Created状态的订单才能发起支付");
         }
         
-        BigDecimal totalAmount = BigDecimal.valueOf(order.totalCost()).divide(BigDecimal.valueOf(100)); // 订单总金额（元）
+        int totalAmountInFen = order.totalCost();
+        BigDecimal totalAmount = BigDecimal.valueOf(totalAmountInFen).divide(BigDecimal.valueOf(100)); // 订单总金额（元）
         
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest(); // 即将发送给支付宝的请求（电脑网站支付请求）
         alipayRequest.setReturnUrl(alipayReturnUrl); // 浏览器端完成支付后跳转回商户的地址（同步通知）
@@ -133,7 +137,9 @@ public class OrderServiceImpl implements OrderService {
             String bizContentStr = objectMapper.writeValueAsString(bizContent);
             System.out.println("alipay.bizContentStr: " + bizContentStr);
             alipayRequest.setBizContent(bizContentStr);
-            return alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成支付表单
+            String form = alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成支付表单
+            orderMapper.setTotalAmount(id, totalAmountInFen);
+            return form;
         } catch (Exception e) {
             throw new RuntimeException(e);
         } 
@@ -148,6 +154,36 @@ public class OrderServiceImpl implements OrderService {
             }
         } catch (AlipayApiException e) {
             throw new AlipaySignatureException(e);
+        }
+    }
+
+    @Override
+    public void handlePayResult(Map<String, String> paramMap) {
+        // 验签
+        verifySignature(paramMap);
+        
+        // 获取必要的请求参数
+        String orderNumber = paramMap.get("out_trade_no");
+        Long orderId = Long.valueOf(orderNumber.split("-")[0]);
+        Integer totalAmount = new BigDecimal(paramMap.get("total_amount")).multiply(BigDecimal.valueOf(100)).intValue();
+        String appId = paramMap.get("app_id");
+        String tradeStatus = paramMap.get("trade_status");
+        
+        // 各种核对
+        Order order = orderMapper.findOneToPay(orderId);
+        if (order.getState() != OrderState.Created) {
+            throw new AlipayResultException("订单状态非Created");
+        }
+        if (!order.getTotalAmount().equals(totalAmount)) {
+            throw new AlipayResultException("订单总金额不一致");
+        }
+        if (!appId.equals(this.appId)) {
+            throw new AlipayResultException("appId不一致");
+        }
+        
+        if ("TRADE_SUCCESS".equals(tradeStatus) || "TRADE_FINISHED".equals(tradeStatus)) {
+            // 设置订单状态为已支付
+            orderMapper.setStateToPaid(orderId);
         }
     }
 

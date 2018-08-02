@@ -57,4 +57,16 @@
   <select id="findAll" resultType="Order">
     select * from "ORDER" where USER_ID = #{userId}
   </select>
+  
+  <update id="setTotalAmount">
+    update "ORDER" set TOTAL_AMOUNT = #{totalAmount} where ID = #{id}
+  </update>
+  
+  <select id="findOneToPay" resultType="Order">
+    select ID, "STATE", TOTAL_AMOUNT from "ORDER" where ID = #{id}
+  </select>
+  
+  <update id="setStateToPaid">
+    update "ORDER" set "STATE" = 'Paid' where ID = #{id}
+  </update>
 </mapper>

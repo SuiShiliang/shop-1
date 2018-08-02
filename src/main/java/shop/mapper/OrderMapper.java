@@ -18,4 +18,11 @@ public interface OrderMapper {
 
     List<Order> findAll(Long userId);
 
+    void setTotalAmount(@Param("id") Long id, 
+                        @Param("totalAmount") Integer totalAmount);
+
+    Order findOneToPay(Long orderId);
+
+    void setStateToPaid(Long orderId);
+
 }

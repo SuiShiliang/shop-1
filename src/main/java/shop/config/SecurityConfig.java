@@ -35,6 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .rememberMe()
             .tokenValiditySeconds(7 * 24 * 3600)
             .key("test123456") // 避免开发中需要反复登录，上线时注释掉，默认为随机数会导致服务器重启之后重启前的记住我cookie失效
-            .userDetailsService(userDetailsService);
+            .userDetailsService(userDetailsService)
+            
+          .and()
+          
+          .csrf()
+            .ignoringAntMatchers("/async-pay-cb");
     }
 }

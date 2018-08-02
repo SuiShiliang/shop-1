@@ -11,6 +11,7 @@ public class Order {
     private Date createdTime;
     
     private OrderState state;
+    private Integer totalAmount;
     
     private List<OrderItem> items = new ArrayList<>();
     
@@ -51,6 +52,13 @@ public class Order {
     }
     public void setState(OrderState state) {
         this.state = state;
+    }
+    
+    public Integer getTotalAmount() {
+        return totalAmount;
+    }
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
     }
     
     public int totalCost() {
