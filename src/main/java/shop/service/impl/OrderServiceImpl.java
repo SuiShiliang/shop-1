@@ -1,11 +1,14 @@
 package shop.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,6 +27,7 @@ import shop.model.OrderState;
 import shop.model.ShippingAddress;
 import shop.model.ShoppingCart;
 import shop.model.ShoppingCartItem;
+import shop.service.AlipaySignatureException;
 import shop.service.OrderService;
 import shop.service.ShoppingCartService;
 
@@ -37,6 +42,8 @@ public class OrderServiceImpl implements OrderService {
     
     private String alipayReturnUrl;
     private String alipayNotifyUrl;
+    private String alipayPublicKey;
+    private String alipaySignType;
     
     private ObjectMapper objectMapper;
     
@@ -45,12 +52,18 @@ public class OrderServiceImpl implements OrderService {
                             ShoppingCartService shoppingCartService, 
                             AlipayClient alipayClient,
                             Environment env,
-                            ObjectMapper objectMapper) {
+                            ObjectMapper objectMapper) throws IOException {
         this.orderMapper = orderMapper;
         this.shoppingCartService = shoppingCartService;
         this.alipayClient = alipayClient;
+        
         this.alipayReturnUrl = env.getProperty("alipay.returnUrl");
         this.alipayNotifyUrl = env.getProperty("alipay.notifyUrl");
+        this.alipayPublicKey = FileUtils.readFileToString(
+                new File(env.getProperty("alipay.alipayPublicKeyFile")), 
+                "UTF-8");
+        this.alipaySignType = env.getProperty("alipay.signType");
+        
         this.objectMapper = objectMapper;
     }
 
@@ -124,6 +137,18 @@ public class OrderServiceImpl implements OrderService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } 
+    }
+
+    @Override
+    public void verifySignature(Map<String, String> paramMap)
+            throws AlipaySignatureException {
+        try {
+            if (!AlipaySignature.rsaCheckV1(paramMap, alipayPublicKey, "UTF-8", alipaySignType)) {
+                throw new AlipaySignatureException();
+            }
+        } catch (AlipayApiException e) {
+            throw new AlipaySignatureException(e);
+        }
     }
 
 }
