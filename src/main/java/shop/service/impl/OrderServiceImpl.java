@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,8 @@ import shop.service.ShoppingCartService;
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    
     private OrderMapper orderMapper;
     
     private ShoppingCartService shoppingCartService;
@@ -81,6 +85,8 @@ public class OrderServiceImpl implements OrderService {
         order.setCreatedTime(new Date());
         order.setState(OrderState.Created);
         
+        logger.debug("插入订单");
+        
         orderMapper.create(order);
         
         // 订单项表
@@ -90,12 +96,16 @@ public class OrderServiceImpl implements OrderService {
             orderItem.setOrderId(order.getId());
             orderItem.setCellphone(cartItem.getCellphone());
             orderItem.setQuantity(cartItem.getQuantity());
+            
+            logger.debug("插入订单项");
             orderMapper.addItem(orderItem);
         }
         
         // 清空购物车
+        logger.debug("清空购物车");
         shoppingCartService.clearCart(userId);
         
+        logger.info("订单已创建: #" + order.getId());
         return order;
     }
 
@@ -135,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
         // 直接将完整的表单html输出到页面
         try {
             String bizContentStr = objectMapper.writeValueAsString(bizContent);
-            System.out.println("alipay.bizContentStr: " + bizContentStr);
+            logger.debug("alipay.bizContentStr: " + bizContentStr);
             alipayRequest.setBizContent(bizContentStr);
             String form = alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成支付表单
             orderMapper.setTotalAmount(id, totalAmountInFen);
@@ -150,6 +160,7 @@ public class OrderServiceImpl implements OrderService {
             throws AlipaySignatureException {
         try {
             if (!AlipaySignature.rsaCheckV1(paramMap, alipayPublicKey, "UTF-8", alipaySignType)) {
+                logger.warn("支付宝签名错误");
                 throw new AlipaySignatureException();
             }
         } catch (AlipayApiException e) {
